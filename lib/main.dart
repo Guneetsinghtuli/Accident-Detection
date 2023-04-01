@@ -124,87 +124,201 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: SafeArea(
         child: Scaffold(
-          body: Container(
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.all(9),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Don't Suffer",
-                        style: GoogleFonts.poppins(
-                            fontSize: 35, fontWeight: FontWeight.w600),
-                      ),
-                      IconButton(onPressed: () {}, icon: Icon(Icons.help))
-                    ],
+          body: Stack(
+            children: [
+              Container(
+              child: Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(9),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Don't Suffer",
+                          style: GoogleFonts.poppins(
+                              fontSize: 35, fontWeight: FontWeight.w600),
+                        ),
+                        IconButton(onPressed: () {}, icon: Icon(Icons.help))
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.all(15),
-                  decoration: const BoxDecoration(
-                      color: Color.fromRGBO(0, 232, 152, 1),
-                      borderRadius: BorderRadius.all(Radius.circular(7))),
-                  padding: EdgeInsets.all(15),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Text(
-                              "You are currently",
-                              style: GoogleFonts.poppins(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 18),
-                            ),
-                          ),
-                          Container(
-                            child: const Icon(
-                              Icons.motorcycle_rounded,
-                              color: Colors.white,
-                              size: 27,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Text("On Bike",style: GoogleFonts.montserrat(),)
-                    ],
-                  ),
-                ),
-                Container(
-                  width: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.all(10),
-                        padding: EdgeInsets.all(10),
-                        color: Colors.redAccent,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.all(15),
+                    decoration: const BoxDecoration(
+                        color: Color.fromRGBO(0, 232, 152, 1),
+                        borderRadius: BorderRadius.all(Radius.circular(7))),
+                    padding: EdgeInsets.all(15),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Icon(Icons.add),
-                            SizedBox(),
-                            Text("Add Contacts for SOS",style: GoogleFonts.poppins(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600
-                            ),)
+                            Container(
+                              child: Text(
+                                "You are currently",
+                                style: GoogleFonts.poppins(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18),
+                              ),
+                            ),
+                            Container(
+                              child: const Icon(
+                                Icons.motorcycle_rounded,
+                                color: Colors.white,
+                                size: 27,
+                              ),
+                            ),
                           ],
                         ),
-                      ),
-                      Container(),
-                      Container()
+                        Text("On Bike",style: GoogleFonts.montserrat(),)
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          padding: EdgeInsets.all(10),
+
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.black,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.add,color: Colors.white,),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text("Add Contacts for SOS",style: GoogleFonts.poppins(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+
+                              ),)
+                            ],
+                          ),
+                        ),
+                        Container(),
+                        Container()
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(
+                      10
+                    ),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(9))
+                    ),
+
+                    child: Column(
+                      children: [
+                        Card(
+                          child: Container(
+                            padding:EdgeInsets.all(12),
+                            decoration:BoxDecoration(),
+                            child:Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Furquan ka Papa",style: GoogleFonts.poppins(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+
+                                    ),),
+                                    Text("guneetsinghtuli@Gmail.com",style: GoogleFonts.poppins(
+                                      fontSize: 11
+                                    ),)
+                                  ],
+                                ),
+                                Icon(Icons.delete)
+                              ],
+                            )
+                          ),
+                        ),
+                        Card(
+                          child: Container(
+                              padding:EdgeInsets.all(12),
+                              decoration:BoxDecoration(),
+                              child:Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Aadya ka Papa",style: GoogleFonts.poppins(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+
+                                      ),),
+                                      Text("guneetsinghtuli@Gmail.com",style: GoogleFonts.poppins(
+                                          fontSize: 11
+                                      ),)
+                                    ],
+                                  ),
+                                  Icon(Icons.delete)
+                                ],
+                              )
+                          ),
+                        ),
+                        Card(
+                          child: Container(
+                              padding:EdgeInsets.all(12),
+                              decoration:BoxDecoration(),
+                              child:Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Geetisha Harami",style: GoogleFonts.poppins(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+
+                                      ),),
+                                      Text("guneetsinghtuli@Gmail.com",style: GoogleFonts.poppins(
+                                          fontSize: 11
+                                      ),)
+                                    ],
+                                  ),
+                                  Icon(Icons.delete)
+                                ],
+                              )
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+              Positioned(
+                bottom: 0,
+                child: Container(
+                  color: Color.fromRGBO(0, 232, 152, 1),
+                  child: Row(
+                    children: [
+                      IconButton(onPressed: (){}, icon: Icon(Icons.home_filled)),
+                      IconButton(onPressed: (){}, icon: Icon(Icons.settings)),
+                      IconButton(onPressed: (){}, icon: Icon(Icons.graphic_eq)),
                     ],
                   ),
                 ),
-              ],
-            ),
+              )
+            ],
           ),
         ),
       ),
