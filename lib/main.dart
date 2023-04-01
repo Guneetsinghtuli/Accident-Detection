@@ -5,6 +5,7 @@ import 'package:sensors_plus/sensors_plus.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:location/location.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 
 void main() {
   runApp(MyApp());
@@ -52,7 +53,39 @@ class _MyAppState extends State<MyApp> {
       }
     });
     // getLocationPermission();
+    Future sendEmail({
+      required String name,
+      required String email,
+      required String subject,
+      required String message
+    }) async{
+      final service_id='service_z3f6q7v';
+      final template_id='template_ckzthgm';
+      final user_id='-E0ncx2VZtLENXFrp';
 
+      final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+      final response = await http.post(
+          url,
+        headers:{
+            'origin':'http://localhost',
+            'Content-Type':'application/json',
+        }
+        body:json.encode({
+      'service_id':serviceId,
+      'template_id':templateId,
+      'user_id':userId,
+      'template_params':{
+        'user_name':name,
+      'user_email':email,
+      'to-email':'other@gmail.com',
+      'user_subject':subject,
+      'user_message':message,
+      },
+      }),
+      );
+
+      print(response.body);
+    }
 
   }
 
