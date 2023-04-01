@@ -22,6 +22,7 @@ dependencies:
 
   cupertino_icons: ^1.0.2
   flutter_email_sender: ^5.2.0
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:
