@@ -21,7 +21,6 @@ class _MyAppState extends State<MyApp> {
   List<DataPoint> _zData = List<DataPoint>.empty(growable: true);
   Location location = Location();
 
-
   @override
   void initState() {
     super.initState();
@@ -52,8 +51,7 @@ class _MyAppState extends State<MyApp> {
       }
     });
     // getLocationPermission();
-
-
+    getLocation();
   }
 
   // Widget scafold =  Scaffold(
@@ -94,10 +92,19 @@ class _MyAppState extends State<MyApp> {
   // );
 
 
+  getLocation()async{
+    print("Location");
+    LocationData currentLocation = await location.getLocation();
+    print(currentLocation.latitude);
+    print(currentLocation.longitude);
+    print(currentLocation.speed);
+    print(currentLocation.speedAccuracy);
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
       home: SafeArea(
         child: Scaffold(
           body: Container(
@@ -108,11 +115,12 @@ class _MyAppState extends State<MyApp> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Don't Suffer",style: GoogleFonts.poppins(
-                        fontSize: 35,
-                        fontWeight: FontWeight.w600
-                      ),),
-                      IconButton(onPressed: (){}, icon: Icon(Icons.help))
+                      Text(
+                        "Don't Suffer",
+                        style: GoogleFonts.poppins(
+                            fontSize: 35, fontWeight: FontWeight.w600),
+                      ),
+                      IconButton(onPressed: () {}, icon: Icon(Icons.help))
                     ],
                   ),
                 ),
@@ -120,18 +128,38 @@ class _MyAppState extends State<MyApp> {
                   width: double.infinity,
                   margin: EdgeInsets.all(15),
                   decoration: const BoxDecoration(
-                    color: Color.fromRGBO(0, 232, 152, 1),
-                    borderRadius: BorderRadius.all(Radius.circular(7))
-                  ),
+                      color: Color.fromRGBO(0, 232, 152, 1),
+                      borderRadius: BorderRadius.all(Radius.circular(7))),
                   padding: EdgeInsets.all(15),
-                  child: Container(
-                    child: Text("You are currently",style: GoogleFonts.poppins(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500
-                    ),),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            child: Text(
+                              "You are currently",
+                              style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18),
+                            ),
+                          ),
+                          Container(
+                            child: const Icon(
+                              Icons.motorcycle_rounded,
+                              color: Colors.white,
+                              size: 27,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text("On Bike",style: GoogleFonts.montserrat(),)
+                    ],
                   ),
                 ),
-
               ],
             ),
           ),
