@@ -5,6 +5,7 @@ import 'package:sensors_plus/sensors_plus.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:location/location.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,6 +21,21 @@ class _MyAppState extends State<MyApp> {
   List<DataPoint> _yData = List<DataPoint>.empty(growable: true);
   List<DataPoint> _zData = List<DataPoint>.empty(growable: true);
   Location location = Location();
+
+  sendEmail()async{
+    final Email send_email = Email(
+      body: 'body of email',
+      subject: 'subject of email',
+      recipients: ['guneetsinghtuli@gmail.com'],
+      // cc: ['example_cc@ex.com'],
+      // bcc: ['example_bcc@ex.com'],
+      // attachmentPaths: ['/path/to/email_attachment.zip'],
+      isHTML: false,
+    );
+
+    await FlutterEmailSender.send(send_email);
+    print("Send Emails");
+  }
 
   @override
   void initState() {
@@ -52,6 +68,7 @@ class _MyAppState extends State<MyApp> {
     });
     // getLocationPermission();
     getLocation();
+    sendEmail();
   }
 
   // Widget scafold =  Scaffold(
@@ -157,6 +174,32 @@ class _MyAppState extends State<MyApp> {
                         ],
                       ),
                       Text("On Bike",style: GoogleFonts.montserrat(),)
+                    ],
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(10),
+                        color: Colors.redAccent,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.add),
+                            SizedBox(),
+                            Text("Add Contacts for SOS",style: GoogleFonts.poppins(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600
+                            ),)
+                          ],
+                        ),
+                      ),
+                      Container(),
+                      Container()
                     ],
                   ),
                 ),
