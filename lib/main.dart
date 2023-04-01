@@ -5,7 +5,11 @@ import 'package:sensors_plus/sensors_plus.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:location/location.dart';
 import 'package:google_fonts/google_fonts.dart';
+<<<<<<< HEAD
 import 'package:http/http.dart';
+=======
+import 'package:flutter_email_sender/flutter_email_sender.dart';
+>>>>>>> 6e2adeb09b89172ef3685f740377191b15e18963
 
 void main() {
   runApp(MyApp());
@@ -22,6 +26,50 @@ class _MyAppState extends State<MyApp> {
   List<DataPoint> _zData = List<DataPoint>.empty(growable: true);
   Location location = Location();
 
+  sendEmail()async{
+    final Email send_email = Email(
+      body: 'body of email',
+      subject: 'subject of email',
+      recipients: ['guneetsinghtuli@gmail.com'],
+      // cc: ['example_cc@ex.com'],
+      // bcc: ['example_bcc@ex.com'],
+      // attachmentPaths: ['/path/to/email_attachment.zip'],
+      isHTML: false,
+    );
+
+    await FlutterEmailSender.send(send_email);
+    print("Send Emails");
+  }
+  sendEmail(required String name,
+      required String email,
+      required String subject,
+      required String message)
+    async{
+      final service_id='service_z3f6q7v';
+      final template_id='template_ckzthgm';
+      final user_id='-E0ncx2VZtLENXFrp';
+
+      final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+      final response = await http.post(
+          url,
+          headers:{
+            'origin':'http://localhost',
+            'Content-Type':'application/json',
+          }
+          body:json.encode({
+      'service_id':serviceId,
+      'template_id':templateId,
+      'user_id':userId,
+      'template_params':{
+      'user_name':name,
+      'user_email':email,
+      'to-email':'other@gmail.com',
+      'user_subject':subject,
+      'user_message':message,
+      },
+      }),
+      );
+  }
 
   @override
   void initState() {
@@ -53,40 +101,14 @@ class _MyAppState extends State<MyApp> {
       }
     });
     // getLocationPermission();
-    Future sendEmail({
-      required String name,
-      required String email,
-      required String subject,
-      required String message
-    }) async{
-      final service_id='service_z3f6q7v';
-      final template_id='template_ckzthgm';
-      final user_id='-E0ncx2VZtLENXFrp';
 
-      final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
-      final response = await http.post(
-          url,
-        headers:{
-            'origin':'http://localhost',
-            'Content-Type':'application/json',
-        }
-        body:json.encode({
-      'service_id':serviceId,
-      'template_id':templateId,
-      'user_id':userId,
-      'template_params':{
-        'user_name':name,
-      'user_email':email,
-      'to-email':'other@gmail.com',
-      'user_subject':subject,
-      'user_message':message,
-      },
-      }),
-      );
 
+      sendEmail();
       print(response.body);
     }
 
+
+    getLocation();
   }
 
   // Widget scafold =  Scaffold(
@@ -127,10 +149,19 @@ class _MyAppState extends State<MyApp> {
   // );
 
 
+  getLocation()async{
+    print("Location");
+    LocationData currentLocation = await location.getLocation();
+    print(currentLocation.latitude);
+    print(currentLocation.longitude);
+    print(currentLocation.speed);
+    print(currentLocation.speedAccuracy);
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
       home: SafeArea(
         child: Scaffold(
           body: Container(
@@ -141,11 +172,12 @@ class _MyAppState extends State<MyApp> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Don't Suffer",style: GoogleFonts.poppins(
-                        fontSize: 35,
-                        fontWeight: FontWeight.w600
-                      ),),
-                      IconButton(onPressed: (){}, icon: Icon(Icons.help))
+                      Text(
+                        "Don't Suffer",
+                        style: GoogleFonts.poppins(
+                            fontSize: 35, fontWeight: FontWeight.w600),
+                      ),
+                      IconButton(onPressed: () {}, icon: Icon(Icons.help))
                     ],
                   ),
                 ),
@@ -153,18 +185,64 @@ class _MyAppState extends State<MyApp> {
                   width: double.infinity,
                   margin: EdgeInsets.all(15),
                   decoration: const BoxDecoration(
-                    color: Color.fromRGBO(0, 232, 152, 1),
-                    borderRadius: BorderRadius.all(Radius.circular(7))
-                  ),
+                      color: Color.fromRGBO(0, 232, 152, 1),
+                      borderRadius: BorderRadius.all(Radius.circular(7))),
                   padding: EdgeInsets.all(15),
-                  child: Container(
-                    child: Text("You are currently",style: GoogleFonts.poppins(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500
-                    ),),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            child: Text(
+                              "You are currently",
+                              style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18),
+                            ),
+                          ),
+                          Container(
+                            child: const Icon(
+                              Icons.motorcycle_rounded,
+                              color: Colors.white,
+                              size: 27,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text("On Bike",style: GoogleFonts.montserrat(),)
+                    ],
                   ),
                 ),
-
+                Container(
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(10),
+                        color: Colors.redAccent,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.add),
+                            SizedBox(),
+                            Text("Add Contacts for SOS",style: GoogleFonts.poppins(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600
+                            ),)
+                          ],
+                        ),
+                      ),
+                      Container(),
+                      Container()
+                    ],
+                  ),
+                ),
               ],
             ),
           ),

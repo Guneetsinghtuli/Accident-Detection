@@ -15,7 +15,6 @@ dependencies:
   flutter:
     sdk: flutter
   sensors_plus: ^2.0.2
-  geolocator: ^9.0.2
   syncfusion_flutter_charts: ^21.1.37
   location: ^4.2.0
   google_fonts: ^4.0.3
