@@ -1,18 +1,26 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:crash/graph.dart';
 import 'package:flutter/material.dart';
-import 'package:sensors_plus/sensors_plus.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+
 import 'package:location/location.dart';
 import 'package:google_fonts/google_fonts.dart';
-<<<<<<< HEAD
-import 'package:http/http.dart';
-=======
-import 'package:flutter_email_sender/flutter_email_sender.dart';
->>>>>>> 6e2adeb09b89172ef3685f740377191b15e18963
+import 'package:http/http.dart' as http;
+import 'package:sensors_plus/sensors_plus.dart';
+
+import 'addContact.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(Page());
+}
+
+class Page extends StatelessWidget{
+  Widget build(BuildContext context){
+    return MaterialApp(
+      home: MyApp(),
+    );
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -24,26 +32,14 @@ class _MyAppState extends State<MyApp> {
   List<DataPoint> _xData = List<DataPoint>.empty(growable: true);
   List<DataPoint> _yData = List<DataPoint>.empty(growable: true);
   List<DataPoint> _zData = List<DataPoint>.empty(growable: true);
+
   Location location = Location();
+  String emai = "";
+  String aliass = "";
+  List help = [];
 
-  sendEmail()async{
-    final Email send_email = Email(
-      body: 'body of email',
-      subject: 'subject of email',
-      recipients: ['guneetsinghtuli@gmail.com'],
-      // cc: ['example_cc@ex.com'],
-      // bcc: ['example_bcc@ex.com'],
-      // attachmentPaths: ['/path/to/email_attachment.zip'],
-      isHTML: false,
-    );
 
-    await FlutterEmailSender.send(send_email);
-    print("Send Emails");
-  }
-  sendEmail(required String name,
-      required String email,
-      required String subject,
-      required String message)
+  sendEmail({required String name, required String email, required String subject, required String message})
     async{
       final service_id='service_z3f6q7v';
       final template_id='template_ckzthgm';
@@ -55,15 +51,15 @@ class _MyAppState extends State<MyApp> {
           headers:{
             'origin':'http://localhost',
             'Content-Type':'application/json',
-          }
+          },
           body:json.encode({
-      'service_id':serviceId,
-      'template_id':templateId,
-      'user_id':userId,
+      'service_id':service_id,
+      'template_id':template_id,
+      'user_id':user_id,
       'template_params':{
       'user_name':name,
       'user_email':email,
-      'to-email':'other@gmail.com',
+      'to-email':'guneetsingh@gmail.com',
       'user_subject':subject,
       'user_message':message,
       },
@@ -79,7 +75,13 @@ class _MyAppState extends State<MyApp> {
         _xData.add(DataPoint(_xData.length, event.x));
         _yData.add(DataPoint(_yData.length, event.y));
         _zData.add(DataPoint(_zData.length, event.z));
+
+        if (event.x > 2 && event.y > 2 && event.z > 12) {
+          print('Warning: Acceleration limit exceeded');
+        }
       });
+
+
     });
     Timer.periodic(Duration(seconds: 60), (Timer t) {
       // get the current timestamp
@@ -100,53 +102,27 @@ class _MyAppState extends State<MyApp> {
         _zData.removeAt(0);
       }
     });
-    // getLocationPermission();
 
-
-      sendEmail();
-      print(response.body);
-    }
-
-
+    // sendEmail(name: "Guneet", email: "guneetsinghtuli@Gmail.com", subject: "Check", message: "Chal gaya BC");
     getLocation();
   }
 
-  // Widget scafold =  Scaffold(
-  //   appBar: AppBar(
-  //     title: const Text('Accelerometer Chart'),
-  //   ),
-  //   body: Column(
-  //       children: [
-  //         // Text("Crash"),
-  //         Center(
-  //           child: SfCartesianChart(
-  //             primaryXAxis: NumericAxis(
-  //
-  //             ),
-  //             series: <LineSeries<DataPoint, int>>[
-  //               LineSeries<DataPoint, int>(
-  //                 dataSource: _xData,
-  //                 xValueMapper: (DataPoint point, _) => point.x,
-  //                 yValueMapper: (DataPoint point, _) => point.y,
-  //                 name: 'X',
-  //               ),
-  //               LineSeries<DataPoint, int>(
-  //                 dataSource: _yData,
-  //                 xValueMapper: (DataPoint point, _) => point.x,
-  //                 yValueMapper: (DataPoint point, _) => point.y,
-  //                 name: 'Y',
-  //               ),
-  //               LineSeries<DataPoint, int>(
-  //                 dataSource: _zData,
-  //                 xValueMapper: (DataPoint point, _) => point.x,
-  //                 yValueMapper: (DataPoint point, _) => point.y,
-  //                 name: 'Z',
-  //               ),
-  //             ],
-  //           ),
-  //         ),]
-  //   ),
-  // );
+  changeStateAlias(String email,String alias){
+    help.add({
+      'email':email,
+      'alias':alias
+    });
+    print(help);
+  }
+
+  changeStateEmail(){
+
+  }
+  submit(){
+
+  }
+
+
 
 
   getLocation()async{
@@ -161,13 +137,12 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SafeArea(
+    return SafeArea(
         child: Scaffold(
           body: Stack(
+            alignment: Alignment.center,
             children: [
-              Container(
-              child: Column(
+              Column(
                 children: [
                   Container(
                     padding: EdgeInsets.all(9),
@@ -232,24 +207,27 @@ class _MyAppState extends State<MyApp> {
                             borderRadius: BorderRadius.circular(10),
                             color: Colors.black,
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.add,color: Colors.white,),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text("Add Contacts for SOS",style: GoogleFonts.poppins(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
+                          child: InkWell(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder:(BuildContext context)=> AddContact(change:changeStateAlias)));
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(Icons.add,color: Colors.white,),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text("Add Contacts for SOS",style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
 
-                              ),)
-                            ],
+                                ),)
+                              ],
+                            ),
                           ),
                         ),
-                        Container(),
-                        Container()
                       ],
                     ),
                   ),
@@ -264,6 +242,7 @@ class _MyAppState extends State<MyApp> {
 
                     child: Column(
                       children: [
+                        // ListView.builder(itemBuilder: (BuildContext context))
                         Card(
                           child: Container(
                             padding:EdgeInsets.all(12),
@@ -274,7 +253,7 @@ class _MyAppState extends State<MyApp> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("Furquan ka Papa",style: GoogleFonts.poppins(
+                                    Text("Furquan",style: GoogleFonts.poppins(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
 
@@ -299,7 +278,7 @@ class _MyAppState extends State<MyApp> {
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text("Aadya ka Papa",style: GoogleFonts.poppins(
+                                      Text("Aadya",style: GoogleFonts.poppins(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
 
@@ -324,7 +303,7 @@ class _MyAppState extends State<MyApp> {
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text("Geetisha Harami",style: GoogleFonts.poppins(
+                                      Text("Geetisha",style: GoogleFonts.poppins(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
 
@@ -344,31 +323,36 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ],
               ),
-            ),
               Positioned(
                 bottom: 0,
-                child: Container(
-                  color: Color.fromRGBO(0, 232, 152, 1),
-                  child: Row(
-                    children: [
-                      IconButton(onPressed: (){}, icon: Icon(Icons.home_filled)),
-                      IconButton(onPressed: (){}, icon: Icon(Icons.settings)),
-                      IconButton(onPressed: (){}, icon: Icon(Icons.graphic_eq)),
-                    ],
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    margin: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: Color.fromRGBO(0, 232, 152, 1),
+                    ),
+
+                    child: Row(
+                      children: [
+                        IconButton(onPressed: (){}, icon: Icon(Icons.home_filled)),
+                        IconButton(onPressed: (){}, icon: Icon(Icons.settings)),
+                        IconButton(onPressed: (){
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Graph(xData: _xData,yData: _yData,zData: _zData,)));
+                        }, icon: const Icon(Icons.graphic_eq)),
+                      ],
+                    ),
                   ),
                 ),
               )
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }
 
-class DataPoint {
-  final int x;
-  final double y;
 
-  DataPoint(this.x, this.y);
-}
